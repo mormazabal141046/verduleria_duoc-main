@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="Proyecto Verduleria para DUOC UC">
+    <meta name="keywords" content="Parcela, Mirador Guadal, Sitios, Patagonia, Aysen, Loteo, Terrenos">
+    <meta name="author" content="Mauricio Ormazabal M.">
+
+    <meta name="theme-color" content="#36be6f">
+    <link rel="icon" type="image/png" href="static/img/favicon.png" />
+
+    <title>Verduleria Duoc</title>
+
+    <!-- Developer -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <!-- Bootstrap VUE -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.17.1/bootstrap-vue.min.js" integrity="sha512-3OPI9vjqM7qBWoob6r+LTpPI5SoWDGz0QadUGI9ZXGAZX3Nyy6bMO8FdDqxbau3m9r4uQow7m08ttROwbggbYA==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.17.1/bootstrap-vue.min.css" integrity="sha512-j0tbUxQhCImdCO6ZCntJhQIrzUYUwFPqKHCuHT8bRUBFDMUkVUpl4VT5gt+rR+UfEFXZxgpwPFiwBZ6U3GrZ5g==" crossorigin="anonymous" />
+
+    <!-- Axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js" integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg==" crossorigin="anonymous"></script>
+
+    <!-- Style Custom -->
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <!-- Lodash -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous"></script>
+
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+</head>
+<body>
+    <div id="mainApp" class="container-fluid p-0 m-0">
+        <div class="w-100 col-12 d-flex flex-row justify-content-center align-items-center align-content-center portada">
+            <div class="w-100 menu d-flex flex-row justify-content-center align-items-center align-content-center" >
+                <img class="d-none d-md-flex px-3 py-4" src="static/img/logo.png" alt=""></a>
+                <div class="d-flex d-md-none bar-menu d-flex flex-row justify-content-center align-items-center align-content-center">
+                    <img src="static/img/logo_menu.png" alt="">
+                    <a v-if="!open" @click="openMenu()"><i class="fas fa-stream animate__animated animate__slow animate__fadeIn"></i></a>
+                    <a v-else @click="openMenu()"><i class="fas fa-times animate__animated animate__slow animate__fadeIn"></i></a>
+                </div>
+                <nav class="p-2  d-md-flex flex-row justify-content-around align-items-center align-content-center flex-wrap" :class="{'d-flex': open == true, 'd-none' : open == false}">
+                    <a @click="scrollTo('#mainApp')"><i style="color:#36be6f" class="fas fa-store-alt"></i> Inicio</a>
+                    <a @click="scrollTo('#servicios')"><i style="color:#ff7b00" class="fas fa-gifts"></i> Servicios</a>
+                    <a @click="scrollTo('#pedidos')"><i style="color:#eb3232" class="fas fa-shopping-cart"></i> Pedidos</a>
+                    <a @click="scrollTo('#contacto')"><i style="color:#0099ff" class="far fa-envelope"></i> Contacto</a>
+                </nav>
+            </div>
+            <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                  <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="5000">
+                        <img src="static/img/verduras.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block p-5">
+                            <h5>VERDURAS</h5>
+                            <p>Extensa variedad de verduras, todo lo que su comida necesita lo encontrará aqui.</p>
+                          </div>
+                    </div>
+                    <div class="carousel-item " data-bs-interval="5000">
+                        <img src="static/img/frutas.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block p-5">
+                            <h5>FRUTAS</h5>
+                            <p>Las mejores frutas de selección, enormes variedades. Lleve a su hogar todo lo que su familia necesita.</p>
+                          </div>
+                    </div>
+                    <div class="carousel-item" data-bs-interval="5000">
+                        <img src="static/img/form.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block p-5">
+                            <h5>ABARROTES</h5>
+                            <p>Contamos con productos de acompañamiento que serán de su necesidad</p>
+                          </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+              
+        </div>
+        <div id="servicios" class="col-12 d-flex flex-column flex-md-row flex-wrap justify-content-center align-items-stretch align-content-center services p-5">
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-start align-items-center align-content-center px-4">
+                <img style="width: 100%;" src="static/img/services.png" alt="">
+            </div>
+            <div class="col-12 col-md-6 mt-4 mt-md-0">
+                <div class="col-12 d-flex flex-column justify-content-center align-items-center align-content-center mb-4">
+                    <i style="font-size: 3em; color: gray;" class="fas fa-gifts mb-3"></i>
+                    <h1>Servicios</h1>
+                </div>
+                <p class="w-100 text-center">
+                    Realizamos la venta y distribución de las mejores Frutas y Verduras que pueden llegar a su mesa. Abastecimos en nuestro local a miles de personas, mediante pedidos y/o encargos para agilizar mucho mas su compra.
+                    <br><br>Ademas, ofrecemos el servicio de Delivery a la puerta de su casa.
+                    Verduras seleccionadas de las granjas de alto nivel. Cuidados y cultivos de excelencia es lo que en Verduleria La del Barrio ofrece para Usted.
+                </p>
+            </div>
+        </div>
+        <div id="pedidos" class="col-12 d-flex flex-column flex-md-row flex-nowrap flex-md-wrap justify-content-center align-items-stretch align-content-center form pb-5">
+            <div class="col-12 d-flex flex-column justify-content-center align-items-center align-content-center py-5">
+                <i style="font-size: 3em;" class="fas fa-shopping-basket mb-3"></i>
+                <h1>Pedidos</h1>
+            </div>
+            <div class="py-2 col-12 text-center">
+                <p>Puedes realizar tu pedido a continuación. Recuerda especificar la información requerida antes de completar la orden.</p>
+            </div>
+            <div class="col-12 d-flex flex-column justify-content-center align-items-center align-content-center pb-5 ">
+                <div class="row w-100 d-flex flex-row justify-content-around align-items-center align-content-center px-4">
+                    <div class="col-12 col-md-4 mb-4 d-flex flex-row justify-content-around align-items-center align-content-center">
+                        <b-form-radio v-model="entrega"  name="some-radios" value="R"> &nbsp;Retiro en Tienda</b-form-radio>
+                        <b-form-radio v-model="entrega" name="some-radios" value="D"> &nbsp;Despacho a Domicilio</b-form-radio>
+                    </div>
+                </div>
+                <div class="row w-100 d-flex flex-column flex-md-row justify-content-around align-items-center align-content-center data-delivery px-4">
+                    <div class="col-12 col-md-4 d-flex flex-column">
+                        <label for="">Nombre y Apellido</label>
+                        <input type="text" placeholder="Ej. Pedro Perez">
+                        <label v-show="entrega == 'D'" for="">Dirección</label>
+                        <input v-show="entrega == 'D'" type="text" placeholder="Calle, Número">
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="">Celular</label>
+                        <input type="phone" placeholder="+569 9 1234567">
+                        <label v-show="entrega == 'D'" for="">Comuna</label>
+                        <select v-show="entrega == 'D'" name="" id="">
+                            <option selected>Santiago</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="">Hora Entrega desde</label>
+                        <input type="time" placeholder="Fecha" value="Fecha">
+                        <label v-show="entrega == 'D'" for="">Email</label>
+                        <input v-show="entrega == 'D'" type="email" placeholder="email@algo.com">
+                    </div>
+                </div>
+                <div class="row w-100 d-flex flex-row flex-md-row justify-content-end align-items-center align-content-center px-4 mt-3">
+                    <div class="col-12 col-md-2">
+                        <input type="button" class="btn btn-primary" value="Generar Pedido">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-start align-items-center align-content-center lista ps-4">
+                <h3 class="py-3">Lista de Productos</h3>
+
+                <ul class="list-group w-100">
+                    <li v-for="(item,index) in stock" :key="index" class="w-100 list-group-item d-flex justify-content-start align-items-center align-content-center flex-wrap">
+                        <div class="col-4">
+                            <img :src="'static/img/tienda/'+item.nombre+'.png'" alt="" class="me-4">
+                            <span style="text-transform: capitalize;"><strong>{{item.nombre}}</strong></span>
+                        </div>
+                        <div class="col-3 buttons-list d-flex flex-row justify-content-start align-content-center align-items-center flex-wrap">
+                            <a class="pe-2" @click="(item.cantidad = item.cantidad + 1)"><i class="fas fa-plus-circle"></i></a>
+                            <a class="pe-2" @click="(item.cantidad = (item.cantidad == 1) ? (alert = true, item.cantidad = 1) : item.cantidad - 1)"><i class="fas fa-minus-circle"></i></a>
+                            <input type="text" :value="item.cantidad" class="me-2">
+                        </div>
+                        <div class="col-2">
+
+                            <span>{{item.unidad}} x ${{item.cantidad* item.precio}}</span>
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            <a class="add-cart d-none d-md-inline" @click="addToCart(item)"><i class="fas fa-cart-plus"></i> Agregar</a>
+                            <a class="add-cart d-inline d-md-none" @click="addToCart(item)"><i class="fas fa-cart-plus"></i></a>
+                        </div>
+                    </li>
+                  </ul>
+            </div>
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center align-content-center">
+                <div class="checkout w-100 h-100 d-flex flex-column flex-nowrap justify-content-start align-content-center align-items-center px-3">                        
+                    <h3 class="py-3"> Mi Canasta</h3>
+                    <span class="d-flex flex-row flex-wrap justify-content-between align-content-center align-items-center item-cart w-100 text-center" style="background: rgba(0,0,0,.7); color: white;">
+                        <span class="col-3"><strong>Producto</strong></span> 
+                        <span class="col-3"><strong>Cantidad</strong></span> 
+                        <span class="col-3"><strong>P.Unitario</strong></span> 
+                        <span class="col-3"><strong>Total</strong></span> 
+                    </span>
+                    <div class="w-100 detail-cart">
+                        <span v-for="(item,index) in cart" :key="index" class="col-12 d-flex flex-row flex-wrap justify-content-between align-content-center align-items-center item-cart w-100 text-center">
+                            <span class="col-3" style="text-transform: capitalize;"><strong>{{item.nombre}}</strong></span> 
+                            <span class="col-3" >{{item.cantidad}} Kg</span> 
+                            <span class="col-3" >${{item.precio}}</span> 
+                            <span class="col-3" >${{item.cantidad*item.precio}}</span> 
+                        </span>
+                    </div>
+
+                    <div class="d-flex flex-row flex-wrap justify-content-end align-content-center align-items-center w-100 text-center p-2">
+                        <span class="pe-3"><h4>TOTAL</h4></span>
+                        <span><strong><h2>${{total_cart}}</h2></strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="contacto" class="col-12 d-flex flex-column flex-nowrap flex-md-row flex-md-wrap justify-content-center align-items-stretch align-content-center contact pb-5">
+            <div class="col-12 d-flex flex-column justify-content-center align-items-center align-content-center py-5">
+                <i style="font-size: 3em;" class="far fa-envelope mb-3"></i>
+                <h1>Contacto</h1>
+            </div>
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-start align-items-center align-content-center px-4">
+                <h4 class="p-4 text-center">Para cualquier aclarar cualquier duda o consulta, comunicate mediante nuestro formulario de contacto y muy pronto te responderemos</h4>
+                <img style="width: 350px; background: rgb(255 255 255 / 43%); border-radius: 35px;" class="px-3 py-4 mb-4" src="static/img/logo_b.png" alt="">
+            </div>
+            <div class="col-12 col-md-6">
+                <form action="" class="d-flex flex-column justify-content-around align-items-center align-content-center form-contact px-4">
+                    <input v-model="form.asunto" type="text" placeholder="Asunto" required pattern="">
+                    <input v-model="form.nombre" type="text" placeholder="Nombre" required>
+                    <input v-model="form.telefono" type="phone" placeholder="Celular" required pattern="[0-9]*">
+                    <input v-model="form.email" type="email" placeholder="Email" required>
+                    <select name="comuna" id="comuna" required v-model="form.comuna">
+                        <option value="" selected>Comuna</option>
+                        <option value="La Cisterna" selected>La Cisterna</option>
+                        <option value="Santiago" selected>Santiago</option>
+                        <option value="Providencia" selected>Providencia</option>
+                    </select>
+                    <textarea name="" id="" cols="30" rows="10" placeholder="Mensaje" required v-model="form.mensaje"></textarea>
+                    <button type="button" class="btn btn-primary w-100" @click="enviarPedido()">Enviar</button>
+                </form>
+            </div>
+        </div>
+
+    
+        <div class="col-12 w-100 p-3 d-flex flex-row justify-content-center align-items-center">
+            <span class="text-center">©Todos los derechos reservados a <b>Aprendiendo HTML</b>, Chile 2021.</span>
+        </div>
+      
+    </div>
+
+    <script>
+  
+        var App = new Vue({
+            el: "#mainApp",
+            data:{
+                entrega:"R",
+                form:{
+                    asunto:"",
+                    nombre:"",
+                    telefono:"",
+                    email:"",
+                    mensaje:"",
+                    comuna:""
+                },
+                scroll_value: 0,
+                open: false,
+                height_app:0,
+                width_app:0,
+                cart:[],
+                alert:false,
+                stock:[
+                    {nombre:"aji",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:300
+                    },
+                    {nombre:"alcachofas",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:1200
+                    },
+                    {nombre:"cebolla",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:700
+                    },
+                    {nombre:"cebollin",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:800
+                    },
+                    {nombre:"choclo",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:2000
+                    },
+                    {nombre:"lechuga",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:600
+                    },
+                    {nombre:"limon",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:500
+                    },
+                    {nombre:"naranjas",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:650
+                    },
+                    {nombre:"paltas",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:2100
+                    },
+                    {nombre:"papas",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:550
+                    },
+                    {nombre:"pera",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:400
+                    },
+                    {nombre:"platano",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:800
+                    },
+                    {nombre:"porotos",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:900
+                    },
+                    {nombre:"rabanos",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio: 750
+                    },
+                    {nombre:"remolacha",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:1100
+                    },
+                    {nombre:"uvas",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:700
+                    },
+                    {nombre:"zanahoria",
+                     cantidad:1,
+                     unidad:"Kg",
+                     precio:600
+                    }
+                ]
+                
+           },
+           mounted() {
+                let self = this;
+                $(document).ready(function () {
+                    $(window).resize(function () {
+                        self.width_app = window.innerWidth;
+                        self.height_app = window.innerHeight;
+                    });
+                });
+            },
+            created() {
+                 window.addEventListener('scroll', this.handleScroll);
+            },
+            watch: {
+                scroll_value:function(val){
+                    if(this.width_app >768 ){
+                        if(val <= 720){
+                            this.open = false;
+                        }
+                    }
+                }
+            },
+            computed:{
+                total_cart(){
+                    let total=0;
+                    this.cart.forEach(item => {
+                        let sub_total = item.precio*item.cantidad;
+                        total = total + sub_total
+                    });
+
+                    return total;
+                }
+            },
+            methods:{
+                enviarPedido(){
+                    console.log("Nombre: ", this.form.nombre)
+                    console.log("Asunto: ", this.form.asunto)
+                    console.log("Telefono: ", this.form.telefono)
+                    console.log("Email: ", this.form.email)
+                    console.log("Comuna: ", this.form.comuna)
+                    console.log("Mensaje: ", this.form.mensaje)
+                },
+                addToCart(item){
+                    let index = _.findIndex(this.cart, {nombre:item.nombre});
+                    console.log("addToCart", index)
+                    if(index == -1){
+                        this.cart.push(item);
+                    }else{
+                        this.cart[index].cantidad++;
+                    }
+                    
+                },
+                openMenu(){
+                    this.open = !this.open;
+                },
+                handleScroll(event){                
+                    this.scroll_value = window.scrollY;
+                },
+                scrollTo(div){
+                    this.openMenu()
+                    $('html, body').animate({
+                        scrollTop: $(div).offset().top
+                    }, 1000);
+                }
+            }
+        })
+    </script>
+
+   <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+
+</body>
+</html>
